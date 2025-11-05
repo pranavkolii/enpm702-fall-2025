@@ -3,6 +3,10 @@ Lecture 7 - Move Semantics and Smart Pointers
 
 This site accompanies *ENPM702 - Lecture 7: Move Semantics & Smart Pointers*. It organizes the lecture into concise, browsable pages with examples, short exercises, and instructor notes.
 
+.. note::
+   `Lecture 7 slides (v3.0) <https://drive.google.com/file/d/1asdrtcfj3Uyv_oq7InnKbaNOAPAg2e5i/view?usp=sharing>`_.
+
+
 Learning Outcomes
 -----------------
 
@@ -19,12 +23,12 @@ By the end of this session, you will be able to:
 - Choose the appropriate **smart pointer type** (``unique_ptr``, ``shared_ptr``, or ``weak_ptr``) for various ownership and lifetime management scenarios.
 
 .. tip::
-   Compile examples with ``-std=c++17 -Wall -Wextra -Wpedantic -Werror`` for strong diagnostics.
+   Compile examples with ``-std=c++17 -Wall -Wextra -pedantic-errors -Werror`` for strong diagnostics.
 
 Detailed Topics
 ---------------
 
-The following sections explore each topic in Lecture 6:
+The following sections explore each topic in Lecture 7:
 
 .. toctree::
    :maxdepth: 2

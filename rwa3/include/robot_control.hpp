@@ -12,13 +12,8 @@
 #include "robot_types.hpp"
 #include <vector>
 #include <functional>
+ 
 
-//---------------------------------------------------------
-// TODO: interpolate_linear (Task 3, template)
-// - TEMPLATE must be defined in header (no .cpp)
-// - STARTER does minimal work; you must complete
-// TODO: Remove this block of comment before submission
-//---------------------------------------------------------
 /**
  * @brief 
  * 
@@ -31,9 +26,11 @@
 template <typename State>
 State interpolate_linear(const State& start, const State& goal, double alpha)
 {
-    // clamp alpha to [0, 1] just in case
+    // Clamp alpha to [0, 1] just in case
     if (alpha < 0.0) alpha = 0.0;
     if (alpha > 1.0) alpha = 1.0;
+    // alpha = std::clamp(alpha, 0.0, 1.0); 
+    // Another option for clamping
 
     State out{};
     // TODO [Task 3]:
@@ -43,8 +40,12 @@ State interpolate_linear(const State& start, const State& goal, double alpha)
     // Starter: angles interpolated, velocities placeholder (0)
     out.theta1 = start.theta1 + alpha * (goal.theta1 - start.theta1);
     out.theta2 = start.theta2 + alpha * (goal.theta2 - start.theta2);
-    out.dtheta1 = 0.0; // replace with finite-difference or proportional velocity
-    out.dtheta2 = 0.0; // replace with finite-difference or proportional velocity
+
+    const double dtheta1{goal.theta1 - start.theta1};
+    const double dtheta2{goal.theta2 - start.theta2};
+
+    out.dtheta1 = k_vel_limit * dtheta1;
+    out.dtheta2 = k_vel_limit * dtheta2;
     return out;
 }
 

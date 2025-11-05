@@ -29,18 +29,13 @@
  */
 template <typename State>
 EndEffectorPose forward_kinematics(const State& s,
-                                   double L1 = kLink1,
-                                   double L2 = kLink2)
+                                   double L1 = k_link1,
+                                   double L2 = k_link2)
 {
-    // TODO [Task 2]:
-    // Implement the FK equations:
-    // x = L1*cos(theta1) + L2*cos(theta1 + theta2)
-    // y = L1*sin(theta1) + L2*sin(theta1 + theta2)
-
     EndEffectorPose pose{};
-    // TODO: complete
-    // pose.x = ??;
-    // pose.y = ??;
+   
+    pose.x = (L1 * std::cos(s.theta1)) + (L2 * std::cos(s.theta1 + s.theta2));      // x = L1*cos(theta1) + L2*cos(theta1 + theta2)
+    pose.y = (L1 * std::sin(s.theta1)) + (L2 * std::sin(s.theta1 + s.theta2));      // y = L1*sin(theta1) + L2*sin(theta1 + theta2)
     return pose;
 }
 

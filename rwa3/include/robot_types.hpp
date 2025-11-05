@@ -1,22 +1,22 @@
 /**
  * @file robot_types.hpp
- * @author your name (you@domain.com)
+ * @author Pranav Jagdish Koli
  * @brief 
  * @version 0.1
- * @date 2025-10-25
+ * @date 2025-10-30
  * 
  * @copyright Copyright (c) 2025
  * 
  */
 #pragma once
 #include <iostream>
-
+#include <vector>
 //----------------------------------------------
 // TODO: POD structs (Task 1)
 // TODO: Remove this block of comment before submission
 //----------------------------------------------
 /**
- * @brief 
+ * @brief stores the current state of the joints in terms of joint angles & joint velocities.
  * 
  */
 struct JointState {
@@ -27,6 +27,10 @@ struct JointState {
     double dtheta2 = 0.0; // Joint 2 velocity [rad/s]
 };
 
+/**
+ * @brief Store the end effector position in terms of x & y (in meters) coordinates. 
+ * 
+ */
 struct EndEffectorPose {
     double x; // [m]
     double y; // [m]
@@ -34,6 +38,8 @@ struct EndEffectorPose {
 
 // print function (non-template -> implemented in .cpp)
 void print_joint_state(const JointState& js);
+void print_trajectory(const std::vector<JointState>& trajectory, const int nth_point, size_t limit);
+void print_ee_poses(const std::vector<EndEffectorPose>& ee_trajectory, size_t ee_limit);
 
 //----------------------------------------------
 // Suggested constexpr configuration (starter)
@@ -41,7 +47,7 @@ void print_joint_state(const JointState& js);
 // TODO: Remove this block of comment before submission
 //----------------------------------------------
 inline constexpr double k_link1{0.5};      // [m]
-inline constexpr double k_link2{0.3};      // [m]
+inline constexpr double k_link2{0.3};     // [m]
 inline constexpr double k_vel_limit{1.0};   // [rad/s]
 inline constexpr int    k_num_samples{21};  // includes endpoints
 inline constexpr double k_alpha_step{1.0 / (k_num_samples - 1)};

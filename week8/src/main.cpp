@@ -86,4 +86,7 @@
 //   const transportation::Vehicle camry("White", "Camry", 113);
 //   camry.print_status();
 // }
-int main(){}
+int main(){
+    transportation::Vehicle car;
+    std::cout << car.get_color() << '\n'; 
+}

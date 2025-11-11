@@ -20,7 +20,7 @@ add_compile_options(-Wall -Wextra -Werror -pedantic-errors)
 add_subdirectory(rwa3)
 # add_subdirectory(week7)
 # add_subdirectory(week7)
-add_subdirectory(week8)
+# add_subdirectory(week8)
 
 
 # add_subdirectory(reading_material)

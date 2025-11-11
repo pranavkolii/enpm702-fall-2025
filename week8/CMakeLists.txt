@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.28)
+cmake_minimum_required(VERSION 3.22.1)
 project(week8 VERSION 1.0 LANGUAGES C CXX)
 
 add_executable(week8_cpp src/main.cpp src/vehicle.cpp)

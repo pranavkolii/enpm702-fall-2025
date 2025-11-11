@@ -1,9 +1,9 @@
 /**
  * @file robot_kinematics.hpp
- * @author your name (you@domain.com)
- * @brief 
+ * @author Pranav Jagdish Koli
+ * @brief This file contains the templates for forward kinematics and joint angle limiter for the robot.
  * @version 0.1
- * @date 2025-10-25
+ * @date 2025-11-5
  * 
  * @copyright Copyright (c) 2025
  * 
@@ -12,19 +12,14 @@
 #include "robot_types.hpp"
 #include <cmath>
 
-//---------------------------------------------------------
-// TODO: forward_kinematics (Task 2)
-// - TEMPLATE must be defined in header (no .cpp)
-// - STARTER returns a placeholder; you must implement
-// TODO: Remove this block of comment before submission
-//---------------------------------------------------------
+// Task 2: Forward Kinematics Template
 /**
- * @brief 
+ * @brief A template function used to do forward kinematics and generate the x & y coordinates of end effector
  * 
  * @tparam State 
- * @param s 
- * @param L1 
- * @param L2 
+ * @param s     // A constant reference to the state structure having joint angles.
+ * @param L1    // Default value for the length of joint 1.
+ * @param L2    // Default value for the length of joint 2.
  * @return EndEffectorPose 
  */
 template <typename State>
@@ -39,17 +34,18 @@ EndEffectorPose forward_kinematics(const State& s,
     return pose;
 }
 
+// Optional Task 5: Joint Limit Validation
+/**
+ * @brief A template function used to validate whether the joint angles are in the range of mechanical constraints,
+ * 
+ * @tparam State 
+ * @param s     // A constant reference to the state structure having joint angles.
+ * @return true 
+ * @return false 
+ */
 
-// TODO: Optional
-// You can optionally write a small function to check if the robot's joint angles are within valid limits.
-// For example, real robot joints cannot rotate indefinitely, they usually have mechanical constraints (e.g., ±180° for a revolute joint).
+template <typename State>
+bool check_joint_limits(const State& s) {
+    return (((s.theta1 > -M_PI) && (s.theta1 < M_PI)) && ((s.theta2 > -M_PI) && (s.theta2 < M_PI)));
+}
 
-//     - Write a function that takes a robot's joint state as input and checks whether each joint angle stays within acceptable limits.
-//     - Pick reasonable limits for both joints (e.g., around ±π radians).
-//     - The function should return true if both joints are within range, and false otherwise.
-
-// This can be a small helper template function and is not required for grading, but it is useful practice for adding safety checks in robot control software.
-
-// template <typename State>
-// bool check_joint_limits(const State& s) {}
-// TODO: Remove this block of comment before submission

@@ -1,9 +1,9 @@
 /**
  * @file main.cpp
  * @author Pranav Jagdish Koli
- * @brief Assignment 3
+ * @brief The main cpp file for this assignment where all the functions, structs, etc. are utilized.
  * @version 0.1
- * @date 2025-10-30
+ * @date 2025-11-5
  * 
  * @copyright Copyright (c) 2025
  * 
@@ -25,7 +25,17 @@ int main() {
     // Aggregate Initialization
     const JointState start{0.0, 0.0};                 // θ1=0, θ2=0
     const JointState goal{M_PI / 4.0, -M_PI / 6.0};   // θ1=45°, θ2=-30°
-    
+
+    std::cout << "Checking the joint angles: \n";
+    bool joint1_check = check_joint_limits(start);
+    bool joint2_check = check_joint_limits(goal);
+
+    if (joint1_check && joint2_check){
+        std::cout << "Both joints are within the mechanical constraints. \n\n";
+    } else {
+        std::cout << "Joint angles are out of the mechanical constraints. \n\n";
+    }
+
     std::cout << "Generating smooth trajectory between:\n";
     std::cout << "Start  -> ";
     print_joint_state(start);
@@ -33,12 +43,17 @@ int main() {
     print_joint_state(goal);
     std::cout << '\n';
 
-    // 2) Trajectory container (ownership requirement)
+    // Task 4: Trajectory Management with Smart Pointers.
+    // 2) Trajectory container (unique ownership )
+    /**
+     * @brief Creating a unique pointer traj to hold the trajectory points for joint angles. 
+     * 
+     */
     auto traj = std::make_unique<std::vector<JointState>>();
     traj->reserve(k_num_samples);
     std::cout << "Trajectory points: " << k_num_samples << '\n';
 
-    // TODO: (Task 3) Generate trajectory samples into *traj using interpolate_linear(...)
+    // Task 3: Linear Trajectory and Velocity Filtering
     for (int i{0} ; i < k_num_samples; ++i) {
         const double alpha = static_cast<double>(i) * k_alpha_step;
         traj->push_back(interpolate_linear(start, goal, alpha));
@@ -46,10 +61,14 @@ int main() {
 
     std::cout << "Unfiltered Trajectory (every 5th point shown): \n";
     print_trajectory(*traj, 5, k_num_samples);     // Printing the trajectory for every 5th point within the sample limit.
-
-    std::cout << "\nApplying velocity-limit filter: |dθ| ≤ " << k_vel_limit << " rad/s\n";
-    // 3) Define & apply velocity-limit filter (lambda)
     
+    // Apply velocity-limit filter (lambda)
+    std::cout << "\nApplying velocity-limit filter: |dθ| ≤ " << k_vel_limit << " rad/s\n";
+
+    /**
+     * @brief A lambda function for clamping the velocity to the limit.
+     * 
+     */
     auto clamp_to_limit = [](double v, double limit) -> double {
             if (v > limit) {
                 return limit;
@@ -60,6 +79,10 @@ int main() {
             return v; 
         };
     
+    /**
+     * @brief A lambda function utilizing the earlier clamping function on the current joint velocities.
+     * 
+     */
     auto clamp_vel = [&clamp_to_limit](const JointState& s) -> JointState {
         JointState out{s};
 
@@ -72,10 +95,11 @@ int main() {
     apply_filter(*traj, clamp_vel);
     
     std::cout << "-> Filter applied succesfully, all values within limits. \n\n";
-    print_trajectory(*traj, 1, 6);     // Printing the trajectory for every nth point for the limit of 5 sample.
+    std::cout << "Filtered Trajectory (first 5 points): \n";
+    print_trajectory(*traj, 1, 5);     // Printing the trajectory for every nth point for the limit of 5 sample.
 
  
-    // 4) End-effector poses (shared ownership)
+    // 4) End-effector poses (unique ownership)
     auto ee_poses = std::make_unique<std::vector<EndEffectorPose>>();
     ee_poses->reserve(traj->size());
 
@@ -89,12 +113,14 @@ int main() {
     std::cout << "End-Effector Trajectory (all points):\n";
     print_ee_poses(*ee_poses,k_num_samples);
 
-    // TODO: (Task 2 & 4) For each state in *traj, compute FK and push_back to *ee_poses
-    // 5) Reporting: you should flesh this out
-    // TODO: Print a brief summary (counts, first/last states, a few (x,y) samples).
 
+    // Reporting all the robot related data.
+   
     std::cout << "\n\nSummary\n" << "--------\n";
     std::cout << "* Total joint states: " << k_num_samples << '\n';
     std::cout << "* Velocity filter: active (|dθ| ≤ " << k_vel_limit << ")\n\n";
     std::cout << "\nProgram finished successfully.\n";
 }
+
+// All smart pointer go out of scope.
+// So all resources are released automatically (RAII).

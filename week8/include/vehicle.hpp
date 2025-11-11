@@ -23,10 +23,19 @@ class Vehicle {
   int max_speed_;
 
  public:
+ Vehicle(){
+  color_ = "White";
+  model_ = "Unknown";
+  max_speed_ = 140;
+ }
   void start_engine();
   void stop_engine();
   void drive();
 
+  /*Accessors*/
+  [[nodiscard]] const std::string& get_color() const noexcept{
+    return color_;
+  }
   /**
    * @brief This method is used for debugging only
    * @todo Remove in production code

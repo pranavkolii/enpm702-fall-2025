@@ -17,10 +17,10 @@ add_compile_options(-Wall -Wextra -Werror -pedantic-errors)
 # add_subdirectory(week6)
 # add_subdirectory(task1)
 # add_subdirectory(task2)
-add_subdirectory(rwa3)
-# add_subdirectory(week7)
+# add_subdirectory(rwa3)
 # add_subdirectory(week7)
 # add_subdirectory(week8)
+add_subdirectory(week9)
 
 
 # add_subdirectory(reading_material)
